@@ -25,7 +25,7 @@ jobs:
 
       - name: Recreate Android Project Files
         run: |
-          flutter create . --platforms=android --org=com.keval.pos
+          flutter create . --platforms=android --org=com.keval.pos --project-name=keval_pos_app
 
       - name: Install Dependencies
         run: flutter pub get
