@@ -27,10 +27,20 @@ jobs:
         run: |
           flutter create . --platforms=android --org=com.keval.pos --project-name=keval_pos_app
 
-      - name: Fix Android Build Configuration
+      - name: Fix Subprojects compileSdk
         run: |
-          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 34/g' android/app/build.gradle || true
-          sed -i 's/targetSdk = flutter.targetSdkVersion/targetSdk = 34/g' android/app/build.gradle || true
+          cat << 'EOF' >> android/build.gradle
+
+          subprojects {
+              afterEvaluate { project ->
+                  if (project.hasProperty("android")) {
+                      android {
+                          compileSdkVersion 34
+                      }
+                  }
+              }
+          }
+          EOF
 
       - name: Install Dependencies
         run: flutter pub get
